@@ -1,3 +1,9 @@
 .styles_scrollable-div__prSCv {
-height: 70vh;
+height: 75vh;
 }
+
+@media only screen and (max-width: 600px) {
+    .styles_scrollable-div__prSCv {
+        height: 72vh;
+        }
+  }

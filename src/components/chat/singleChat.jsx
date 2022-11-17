@@ -8,7 +8,6 @@ import {
   Spinner,
   Text,
   useToast,
-  Heading
 } from "@chakra-ui/react";
 import { ArrowBackIcon } from "@chakra-ui/icons";
 import { GetSender, GetSenderFull } from "../logic";
@@ -18,13 +17,14 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import ScrollModal from "../modals/scrollModal";
 import { io } from "socket.io-client";
-import Lottie from 'react-lottie-player'
 import typingAnimation from "../animations/typing.json";
+import Lottie from "react-lottie-player";
 
 const ENDPOINT = "http://localhost:3001";
 let socket, selectedChatCompare;
 const SingleChat = ({ fetchAgain, setFetchAgain }) => {
-  const { user, selectedChat, setSelectedChat, notification , setNotification} = ChatState();
+  const { user, selectedChat, setSelectedChat, notification, setNotification } =
+    ChatState();
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState("");
@@ -32,48 +32,42 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
   const [socketConnected, setSocketConnected] = useState(false);
   const [typing, setTyping] = useState(false);
   const [istyping, setIsTyping] = useState(false);
-  
-  
-  
+
   useEffect(() => {
     socket = io(ENDPOINT);
     socket.emit("setup", user);
     socket.on("connected", () => setSocketConnected(true));
     socket.on("typing", () => setIsTyping(true));
     socket.on("stopTyping", () => setIsTyping(false));
-   
   }, []);
-  
+
   useEffect(() => {
     fetchMessages();
     //to decide if to give notification
     selectedChatCompare = selectedChat;
   }, [selectedChat]);
-  
+
   useEffect(() => {
     socket.on("msg", (msg) => {
       if (
         !selectedChatCompare || // if chat is not selected or doesn't match current chat
         selectedChatCompare._id !== msg.chat._id
-        )
-        {
-          if (!notification.includes(msg)) {
-            setNotification([msg, ...notification])
-          }
+      ) {
+        if (!notification.includes(msg)) {
+          setNotification([msg, ...notification]);
         }
-        else {
-          setMessages([...messages, msg]);
-        }
-      });
+      } else {
+        setMessages([...messages, msg]);
+      }
     });
-  
+  });
 
-    const fetchMessages = async () => {
-      if (!selectedChat) return;
-      
-      try {
+  const fetchMessages = async () => {
+    if (!selectedChat) return;
+
+    try {
       const config = {
-        Headings: {
+        headers: {
           Authorization: `Bearer ${user.data.token}`,
         },
       };
@@ -81,7 +75,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       setLoading(true);
 
       const { data } = await axios.get(
-        `http://localhost:3001/api/message/${selectedChat._id}`,
+        `/api/message/${selectedChat._id}`,
         config
       );
       setMessages(data);
@@ -158,15 +152,15 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
       {selectedChat ? (
         <>
           <Text display={'flex'}>
-            <IconButton 
+            <IconButton
               icon={<ArrowBackIcon />}
               onClick={() => setSelectedChat("")}
             />
             {!selectedChat.isGroupChat ? (
-              <Heading>
+              <>
                 {GetSender(user, selectedChat.users)}
                 <ProfileModal user={GetSenderFull(user, selectedChat.users)} />
-              </Heading>
+              </>
             ) : (
               <>
                 {selectedChat.chatName.toUpperCase()}
@@ -178,9 +172,9 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
               </>
             )}
           </Text>
-          <Box>
+          <Box >
             {loading ? (
-              <Spinner alightself="center" />
+              <Spinner alightSelf="center" />
             ) : (
               <>
                 <ScrollModal messages={messages} />
@@ -193,7 +187,7 @@ const SingleChat = ({ fetchAgain, setFetchAgain }) => {
                     loop
                     animationData={typingAnimation}
                     play
-                    style={{ width: 150, height: 150 }}
+                    style={{ width: 100, height: 100 }}
                   />
                 </div>
               ) : (

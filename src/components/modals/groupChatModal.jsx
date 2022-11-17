@@ -1,4 +1,4 @@
-import {
+  import {
   Modal,
   ModalOverlay,
   ModalContent,
@@ -10,6 +10,7 @@ import {
   Button,
   useDisclosure,
   Input,
+  
 } from "@chakra-ui/react";
 import {
   FormControl,
@@ -19,12 +20,12 @@ import {
 } from "@chakra-ui/react";
 import axios from "axios";
 import { useState } from "react";
-// import ChatState from "../provider/chatProvider";
-import UserList from "../user/userList";
+import UserListItem from "../user/userList";
 import UserBadgeItem from "../user/userBadgeItem";
+import { ChatState } from "../provider/chatProvider";
 
 
-const GroupChatModal = ({ children ,user, chats, setChats}) => {
+  const GroupChatModal = ({ children }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
   const toast = useToast();
   const [chatName, setChatName] = useState();
@@ -33,7 +34,7 @@ const GroupChatModal = ({ children ,user, chats, setChats}) => {
   const [results, setResults] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  // const { user, chats, setChats } = ChatState();
+  const { user, chats, setChats } = ChatState();
   const handleGroup = (userToAdd) => {
     if (groupUsers.includes(userToAdd)) {
       toast({
@@ -90,7 +91,7 @@ const GroupChatModal = ({ children ,user, chats, setChats}) => {
     } catch (error) {
       toast({
         title: "Failed to Create the Chat!",
-        description: error.response.data,
+        description: "error",
         status: "error",
         duration: 5000,
         isClosable: true,
@@ -101,6 +102,13 @@ const GroupChatModal = ({ children ,user, chats, setChats}) => {
   const handleSearch = async (query) => {
     setSearch(query);
     if (!query) {
+      toast({
+        title: "Please Enter name in search",
+        status: "warning",
+        duration: 5000,
+        isClosable: true,
+        position: "top-left",
+      });
       return;
     }
 
@@ -111,9 +119,9 @@ const GroupChatModal = ({ children ,user, chats, setChats}) => {
           Authorization: `Bearer ${user.data.token}`,
         },
       };
-      const data = await axios.get(`/api/user?search=${search}`, config);
+      const {data}= await axios.get(`/api/user?search=${search}`, config);
       setLoading(false);
-      setResults(data);
+      setResults(data); 
     } catch (error) {
       toast({
         title: "Error Occured!",
@@ -143,31 +151,34 @@ const GroupChatModal = ({ children ,user, chats, setChats}) => {
                 type="text"
                 onChange={(e) => setChatName(e.target.value)}
               />
-              {/* <FormHelperText>The group it totaly private</FormHelperText> */}
-              <FormLabel onChange={(e) => handleSearch(e.target.value)}>
+            
+            
+              <FormLabel onChange={(e) => setSearch(e.target.value)}>
                 add members
               </FormLabel>
-
-              {/* <FormErrorMessage>Name is required</FormErrorMessage> */}
-            </FormControl>
+              <Input
+              placeholder="At least two"
+              />
             {groupUsers.map((u)=>(
               <UserBadgeItem key={user._id} user={u}
               handleFunction={()=>handleDelete(u)}/>
               
-            ))}
+              ))}
             {loading ? (
               <div>Loading...</div>
-            ) : (
-              results
-                ?.slice(0, 4)
+              ) : (
+                results?.slice(0, 3)
                 .map((user) => (
-                  <UserList
-                    key={user._id}
-                    user={user}
-                    handleFunction={() => handleGroup(user)}
+                  <UserListItem 
+                  key={user._id}
+                  user={user}
+                  handleFunction={()=>handleGroup(user)}
                   />
-                ))
-            )}
+                  ))
+                  )}
+                  <Button onClick={handleSearch}>add</Button>
+                  
+                </FormControl>
           </ModalBody>
 
           <ModalFooter>

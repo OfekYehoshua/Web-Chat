@@ -13,7 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useMediaQuery } from "@chakra-ui/react";
 
 const Login = (e) => {
-  const [mediaQuery] = useMediaQuery('(min-width: 1280px)')
+  const [mediaQuery] = useMediaQuery("(min-width: 1280px)");
   const toast = useToast();
   const navigate = useNavigate();
 
@@ -79,15 +79,9 @@ const Login = (e) => {
     navigate("/chat");
   };
   return (
-    <Container
-      maxW="lg"
-      py={{ base: "12", md: "30" }}
-      px={{ sm: "20", md: "10" }}
-    
-      h={mediaQuery?"51vh":"100vh"}
-      > 
-      <Box color={"#2a9d8f"} mb={'10vh'}>
-        <VStack spacing={4} align="flex-start" centerContent>
+    <Container display={"flex"}>
+      <Box>
+        <VStack spacing={8} align="flex-start">
           <Input
             color="black"
             type="text"
@@ -100,26 +94,28 @@ const Login = (e) => {
               placeholder="Enter password"
               onChange={(e) => setPassword(e.target.value)}
             />
-            <Button colorScheme="teal" variant="ghost" onClick={handleClick}>
+            <Button  color={"#073b4c"} variant="ghost" onClick={handleClick}>
               {show ? "Hide" : "Show"}
             </Button>
           </FormControl>
-          
-         
-            <Button
-              onClick={handleSubmit}
-              ml={"10"}
-              colorScheme="teal"
-              py={{sm:'4'}}
-              px={{ sm: "4", md: '6', lg:'8' }}
-              size='4xl'
-            > 
-              Log-In
-            </Button>
+
+          <Button
+            itemAlign={"center"}
+            p={5}
+            onClick={handleSubmit}
+            colorScheme="#073b4c"
+            backgroundColor={"black"}
+            color={"#ffd166"}
+            size="2xl"
+          >
+            Log-In
+          </Button>
         </VStack>
-            <Button  m='5vh' p={"6"} color="white" bg={"red"} onClick={handleGuest}>
-              or enter as a guest
-            </Button>
+        <Button
+         ml={{ base: "24vw", md: "6vw" }}
+         m="5vh" p={"6"} color="black" bg={"#ef233c"} onClick={handleGuest}>
+          Or enter as a guest
+        </Button>
       </Box>
     </Container>
     // <div>

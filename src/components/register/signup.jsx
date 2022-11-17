@@ -12,37 +12,24 @@ import {
   Text,
   Input,
   VStack,
-  useBreakpointValue,
-  useColorModeValue,
 } from "@chakra-ui/react";
 import { useState } from "react";
 import { useToast } from "@chakra-ui/react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import uploadIcon from "../animations/uploadIcon.json";
-import Lottie from 'react-lottie-player'
-import { useMediaQuery } from "@chakra-ui/react";
+import Lottie from "react-lottie-player";
 
 const Signup = () => {
   const [show, setShow] = useState(false);
   const handleClick = () => setShow(!show);
   const toast = useToast();
-  const [mediaQuery] = useMediaQuery('(min-width: 1280px)')
   const [email, setEmail] = useState();
   const [name, setName] = useState();
   const [password, setPassword] = useState();
   const [confirmPassword, setConfirmPassword] = useState();
   const [pic, setPic] = useState();
   const navigate = useNavigate();
-
-  const defaultOptions = {
-    loop: true,
-    autoplay: true,
-    animationData: uploadIcon,
-    rendererSettings: {
-      preserveAspectRatio: "xMidYMid slice",
-    },
-  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -83,7 +70,6 @@ const Signup = () => {
       });
 
       localStorage.setItem("userInfo", JSON.stringify(data));
-      console.log(data);
       navigate("/chat");
     } catch (error) {
       toast({
@@ -129,16 +115,15 @@ const Signup = () => {
   };
 
   return (
-    <Container
-      maxW="lg"
-      py={{ base: "12", md: "1" }}
-      px={{  sm: "20" }}
-   
-    >
-      <Box color={"#ef476f"} h={mediaQuery?"51vh":"100vh"}>
-        <VStack  spacing={4} align="flex-start"  centerContent >
+    <Container display={"flex"}>
+      <Box
+        color={{ sm: "ghost", md: "#ef476f" }}
+        h={{ sm: "100vh", md: "50vh" }}
+      >
+        <VStack spacing={{sm:4, md:2}} align="flex-start">
           <FormControl />
           <Input
+          fontFamily={'inter'}
             type="text"
             placeholder="Enter nickname"
             onChange={(e) => setName(e.target.value)}
@@ -155,26 +140,25 @@ const Signup = () => {
             onChange={(e) => setPassword(e.target.value)}
           />
           <Box>
-
-          <Input
-            type={show ? "text" : "password"}
-            placeholder="Repeat password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-          />
-          <Button colorScheme="teal" variant="ghost" onClick={handleClick}>
-            {show ? "Hide" : "Show"}
-          </Button>
+            <Input
+              type={show ? "text" : "password"}
+              placeholder="Repeat password"
+              onChange={(e) => setConfirmPassword(e.target.value)}
+            />
+            <Button color={"#073b4c"} variant="ghost" onClick={handleClick}>
+              {show ? "Hide" : "Show"}
+            </Button>
           </Box>
           <FormControl>
-            <FormLabel fontFamily='inter' px={{sm: '4'}}>
+            <FormLabel fontFamily="inter" px={"4"} textAlign={"center"}>
               upload profile photo
               <Lottie
-              //  options={defaultOptions} width={120}
-               loop
-               animationData={uploadIcon}
-               play
-               style={{ width: 150, height: 150 }}
-                />
+                //  options={defaultOptions} width={120}
+                loop
+                animationData={uploadIcon}
+                play
+                style={{ width: 100, height: 100 }}
+              />
             </FormLabel>
             <Input
               display="none"
@@ -182,9 +166,18 @@ const Signup = () => {
               placeholder="Add profile picture"
               onChange={(e) => postDetails(e.target.files[0])}
             />
-          <Button ml={'16'} p={5} onClick={handleSubmit} colorScheme="teal" px={{sm: ''}} size='4xl'>
-            SUBMIT
-          </Button>
+            <Button
+              itemAlign={"center"}
+              p={5}
+              onClick={handleSubmit}
+              colorScheme="#073b4c"
+              backgroundColor={"black"}
+              color={"#ffd166"}
+              size="2xl"
+              ml={{base:"22vw", md:"14vw", lg:"9vw"}}
+            >
+              SUBMIT
+            </Button>
           </FormControl>
         </VStack>
       </Box>

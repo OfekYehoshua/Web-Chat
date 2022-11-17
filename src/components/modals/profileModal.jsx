@@ -21,7 +21,7 @@ const ProfileModal = ({children, user}) => {
   return (
     <div>
       {children ? (<span onClick={onOpen}>{children}</span>)
-      :(<IconButton  d={{ base: "flex" }} ml={'56vw'} icon={<Avatar src={user.pic} borderRadius={'10px'}/>} onClick={onOpen} />)}
+      :(<IconButton  d={{ base: "flex" }} ml={{base:'60vw',sm:'62vw', md:'50vw', lg:'60vw'}} icon={<Avatar src={user.pic} borderRadius={'10px'}/>} onClick={onOpen} />)}
         <Modal size="lg" onClose={onClose} isOpen={isOpen} isCentered>
         <ModalOverlay />
         <ModalContent h="410px">

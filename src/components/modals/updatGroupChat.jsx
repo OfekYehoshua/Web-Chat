@@ -155,7 +155,6 @@ const UpdatGroupChat = ({fetchAgain, setFetchAgain, fetchMessages}) => {
         config
       );
 
-      console.log(data._id);
       setSelectedChat(data);
       setFetchAgain(!fetchAgain);
       setRenameLoading(false);

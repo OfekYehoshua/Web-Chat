@@ -10,7 +10,7 @@ const Chat = () => {
   const { user } = ChatState();
 
   return (
-    <Box >
+    <Box backgroundColor={'#2b2d42'}>
       {user && <Slider  />}
       <Box  display={"flex"} justifyContent="space-between" w="100%" h="87.5vh" p="10px">
         {user && (<MyChats fetchAgain={fetchAgain} />)}

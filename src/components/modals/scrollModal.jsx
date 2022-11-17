@@ -14,16 +14,18 @@ import './modalStyles.css'
 const ScrollModal = ({ messages }) => {
   const { user } = ChatState();
   return (
-    <ScrollableFeed >
+    <ScrollableFeed>
       {messages &&
         messages.map((m, i) => (
-          <Box key={m.id}  width={{base:"90vw", md:"64vw", lg:"64vw"}}>
+          <Box key={m.id}  
+          // width={{base:"90vw", md:"64vw", lg:"64vw"}}
+          >
             {(isSameSender(messages, m, i, user._id) ||
               isLastMessage(messages, i, user._id)) && (
               <Tooltip
                 label={m.sender.name}
                 placement="bottom-start"
-                //   hasArrow
+                  // hasArrow
               >
                 <Avatar
                   mt="7px"

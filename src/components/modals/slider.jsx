@@ -32,8 +32,8 @@ import { ChatState } from "../provider/chatProvider";
 import ProfileModal from "../modals/profileModal";
 import SkeletonSearch from "./skeleton";
 import { GetSender } from "../logic";
-import NotificationBadge from 'react-notification-badge'
-import {Effect} from 'react-notification-badge'
+import NotificationBadge from "react-notification-badge";
+import { Effect } from "react-notification-badge";
 
 const Slider = () => {
   const {
@@ -124,30 +124,28 @@ const Slider = () => {
       });
     }
   };
-
   return (
     <>
       <Box
         display={"flex"}
         justifyContent="space-between"
         alignItems="center"
-        bg="white"
         w="100%"
         p="5px 10px 5px 10px"
         borderWidth="5px"
+        backgroundColor={"#ffd166"}
       >
-        <Tooltip hasArrow label="Search places" bg="tomato">
-          <Button variant="ghost" onClick={onOpen}>
-            <SearchIcon />
-            <Text display={{ base:"none", sm: "none", md: "flex" }}>search</Text>
-          </Button>
-        </Tooltip>
         <Text fontSize="2xl" fontFamily="Work sans">
           Web-Chat
         </Text>
-      </Box>
-      <Box display={"flex"} flexDirection="row-reverse">
+        <Box display={"flex"} >
         <Menu>
+        <Tooltip hasArrow label="Search places" bg="tomato">
+          <MenuButton as={Button} variant="ghost" onClick={onOpen}>
+            <SearchIcon />
+            {/* <Text display={{ base: "none", md: "flex" }}>search</Text> */}
+          </MenuButton>
+        </Tooltip>
           <MenuButton>
             <MenuButton as={Button} bg="white" rightIcon={<ChevronDownIcon />}>
               <Avatar
@@ -169,29 +167,32 @@ const Slider = () => {
           <Tooltip hasArrow label="see whats new" bg="tomato">
             <MenuButton p={1}>
               <NotificationBadge
-              count={notification.length}
-              effect={Effect.SCALE}
-            />
+                count={notification.length}
+                effect={Effect.SCALE}
+              />
               <BellIcon fontSize="2xl" m={1} />
             </MenuButton>
           </Tooltip>
-          <MenuList>   {!notification.length && "No New Messages"}  
-          {notification.map((notif) => (
-                <MenuItem
-                  key={notif._id}
-                  onClick={() => {
-                    setSelectedChat(notif.chat);
-                    setNotification(notification.filter((n) => n !== notif))
-
-                  }}
-                >
-                  {notif.chat.isGroupChat?
-                    `New Message in ${notif.chat.chatName}`
-                    :`New Message from ${GetSender(user, notif.chat.users)}`}
-                </MenuItem>
-              ))}
+          <MenuList>
+            {" "}
+            {!notification.length && "No New Messages"}
+            {notification.map((notif) => (
+              <MenuItem
+                key={notif._id}
+                onClick={() => {
+                  setSelectedChat(notif.chat);
+                  setNotification(notification.filter((n) => n !== notif));
+                }}
+              >
+                {notif.chat.isGroupChat
+                  ? `New Message in ${notif.chat.chatName}`
+                  : `New Message from ${GetSender(user, notif.chat.users)}`}
+              </MenuItem>
+            ))}
           </MenuList>
         </Menu>
+      </Box>
+    
         <Drawer
           placement="left"
           isOpen={isOpen}

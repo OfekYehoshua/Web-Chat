@@ -1,0 +1,7 @@
+#background{
+    background-image: url('https://cdn3.vectorstock.com/i/1000x1000/09/42/seamless-chat-bubble-pattern-or-background-vector-23220942.jpg');
+    min-height: 100vh;
+    display: flex;
+    background-position: center;
+    background-size: cover;
+}
